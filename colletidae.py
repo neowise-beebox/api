@@ -4,18 +4,20 @@ import requests
 apidae_api_key = "0079f159f4ced7bbe0694468132deee8"
 
 def main():
-    getCitiesInfo()
+    getCitiesInfo(0)
 
-def getCitiesInfo():
-    mounted_dictionary = []
-    cities = json.loads( open("city.list.json").read() )
-    for city in cities:
-        city_info = getCityInfoById( city["id"] )
+def getCitiesInfo(index):
+    cities = open("new_list.txt").read().split(',')
+    try:
+        city_info = getCityInfoById( cities[index] )
         writeCitiesWeatherDictToFile( city_info )
-        mounted_dictionary.append( city_info )
+        index+=1
+        getCitiesInfo(index)
+    except requests.exceptions.ConnectionError:
+        getCitiesInfo(index)
 
 def getCityInfoById(city_id):
-    weather_api_url = "http://api.openweathermap.org/data/2.5/weather?id={}&appid={}".format(city_id, apidae_api_key)
+    weather_api_url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_id, apidae_api_key)
     city_content = json.loads( requests.get(weather_api_url).content )
     print city_content["id"]
     return mountIndividualCityDict( city_content )
@@ -35,8 +37,8 @@ def mountIndividualCityDict(city_full_content):
             "temp_max": city_full_content["main"]["temp_max"] if city_full_content["main"].has_key("temp_max") else ""
         },
         "wind": {
-            "speed": city_full_content["wind"]["speed"] if city_full_content["wind"]["speed"] else "",
-            "deg": city_full_content["wind"]["deg"] if city_full_content["wind"]["deg"] else ""
+            "speed": city_full_content["wind"]["speed"] if city_full_content["wind"].has_key("speed") else "",
+            "deg": city_full_content["wind"]["deg"] if city_full_content["wind"].has_key("deg") else ""
         }
     }
 
