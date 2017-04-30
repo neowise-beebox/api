@@ -29,6 +29,11 @@ def savebee():
 def listbees():
     return jsonify( beedao.listBeeOccurrences() )
 
+@app.route("/listrelatives/<occurrence_id>", methods=["GET"])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def listrelatives(occurrence_id):
+    return jsonify( beedao.listRelativesByOccurrenceId(occurrence_id) )
+
 if __name__ == '__main__':
     app.run()
     # app.run(app.config['LISTEN_HOST'], app.config['LISTEN_PORT'])

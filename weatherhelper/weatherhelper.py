@@ -3,6 +3,7 @@
 
 import json
 import requests
+import pytemperature
 
 apidae_api_key = "0079f159f4ced7bbe0694468132deee8"
 
@@ -16,11 +17,11 @@ def mount_dict(info):
     return {
         "state": info["name"] if info.has_key("name") else "",
         "weather": {
-            "temp": info["main"]["temp"] if info["main"].has_key("temp") else "",
+            "temp": pytemperature.k2c(info["main"]["temp"]) if info["main"].has_key("temp") else "",
             "pressure": info["main"]["pressure"] if info["main"].has_key("pressure") else "",
             "humidity": info["main"]["humidity"] if info["main"].has_key("humidity") else "",
-            "max": info["main"]["temp_max"] if info["main"].has_key("temp_max") else "",
-            "min": info["main"]["temp_min"] if info["main"].has_key("temp_min") else "",
+            "max": pytemperature.k2c(info["main"]["temp_max"]) if info["main"].has_key("temp_max") else "",
+            "min": pytemperature.k2c(info["main"]["temp_min"]) if info["main"].has_key("temp_min") else "",
         },
         "wind": {
             "speed": info["wind"]["speed"] if info["wind"].has_key("speed") else "",
