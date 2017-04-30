@@ -1,1 +1,1 @@
-web: python apidae.py -p $PORT
+web: gunicorn -b 127.0.0.1:$PORT apidae:app
