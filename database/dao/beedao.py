@@ -2,23 +2,25 @@
 #-*- coding: utf-8 -*-
 
 import json
+import pytemperature
 from weatherhelper import weatherhelper
 from database import megachilidaeconnection
 from beeevaluator.beeevaluator import BeeEvaluator 
 
 connection = megachilidaeconnection.getConnection()
 
-def getRelativesCities():
-    json_dump = json.loads( open("collected.txt", "r").read() )
-    evaluate_list = []
-    for x, dictionary in enumerate( json_dump ):
-        if x == 5:
-            break
-        beeevaluator = BeeEvaluator(dictionary)
-        beeevaluator.evaluate()
-        evaluate_list.append(beeevaluator.getEvaluatedCity())
-    sorted_list = sorted(evaluate_list, key=lambda k: k["score"])
-    return sorted_list
+def getRelativesCities(beesample):
+    dump = json.loads( open("collected.txt", "r").read() )
+    print beesample
+    city_list = []
+    for city in dump:
+        city_score = beesample["weather"]["temp"] - pytemperature.k2c(city["weather"]["temp"]) + beesample["weather"]["humidity"] - city["weather"]["humidity"] + beesample["wind"]["speed"] - city["wind"]["speed"]
+        city_list.append({
+            "score": abs( round((city_score * 0.1), 3) ),
+            "name": city["state"]
+        })
+    city_list = sorted( city_list, key=lambda key: key["score"] )
+    return city_list[:5]
 
 ## Implementar o id e o device_id
 def newBee(beedata):
@@ -39,12 +41,12 @@ def newBee(beedata):
 def save(beejson):
     beejson = json.loads(beejson)
     beename = "{}{}".format(beejson["idDevice"], beejson["cod"])
-    result = connection.patch("/bees/{}".format(beename), newBee( beejson ) )
-    print result
-    saveRelatives(beename)
+    weathered_bee = newBee( beejson )
+    result = connection.patch("/bees/{}".format(beename), weathered_bee )
+    saveRelatives(beename, weathered_bee)
 
-def saveRelatives(node_id):
-    connection.post("/relatives/{}".format(node_id), getRelativesCities())
+def saveRelatives(node_id, beesample):
+    connection.post("/relatives/{}".format(node_id), getRelativesCities(beesample))
 
 def listBeeOccurrences():
     bee_list = []

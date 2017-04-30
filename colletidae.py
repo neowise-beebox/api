@@ -4,7 +4,7 @@ import requests
 apidae_api_key = "0079f159f4ced7bbe0694468132deee8"
 
 def main():
-    getCitiesInfo(320)
+    getCitiesInfo(1286)
 
 def getCitiesInfo(index):
     cities = open("new_list.txt").read().split(',')
