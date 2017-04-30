@@ -37,8 +37,11 @@ def newBee(beedata):
     return data
 
 def save(beejson):
-    result = connection.post("/bees", newBee( json.loads(beejson) ) )
-    saveRelatives(result["name"])
+    beejson = json.loads(beejson)
+    beename = "{}{}".format(beejson["idDevice"], beejson["cod"])
+    result = connection.patch("/bees/{}".format(beename), newBee( beejson ) )
+    print result
+    saveRelatives(beename)
 
 def saveRelatives(node_id):
     connection.post("/relatives/{}".format(node_id), getRelativesCities())
