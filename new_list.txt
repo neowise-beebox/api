@@ -3891,8 +3891,7 @@ Barracão 23,
 Barros Cassal 23,
 Benjamin Constant do Sul 23,
 Bento Gonçalves 23,
-Boa Vista das Missões 23,;
-INSERT INTO `cidade` (`id` `nome` `estado`, VALUES
+Boa Vista das Missões 23,
 Boa Vista do Buricá 23,
 Boa Vista do Cadeado 23,
 Boa Vista do Incra 23,
