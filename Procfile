@@ -1,1 +1,1 @@
-web: gunicorn apidae.py --log-file -
+web: python apidae.py --log-file -
