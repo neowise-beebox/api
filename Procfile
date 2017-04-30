@@ -1,1 +1,1 @@
-worker: python apidae.py
+web: python apidae.py
