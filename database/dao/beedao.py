@@ -18,6 +18,7 @@ def newBee(beedata):
     }
 
 def save(beejson):
+    print "sended data ==> {}".format( beejson )
     print "sended data type ==> {}".format(type( beejson ))
     connection.post( "/bees", newBee( json.loads(beejson) ) )
 
