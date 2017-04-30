@@ -24,4 +24,4 @@ def listbees():
     return jsonify( beedao.listBeeOccurrences() )
 
 if __name__ == '__main__':
-    app.run()
+    app.run(app.config['LISTEN_HOST'], app.config['LISTEN_PORT'])
