@@ -15,7 +15,7 @@ def welcome():
 # Creates new bee occurrence
 @app.route("/savebee", methods=["POST"])
 def savebee():
-    print request.form["beedata"]
+    print type( request )
     beedao.save(request.form["beedata"])
     return jsonify( {"status": 200, "text": "bee saved"} )
 
@@ -25,4 +25,5 @@ def listbees():
     return jsonify( beedao.listBeeOccurrences() )
 
 if __name__ == '__main__':
+    # app.run()
     app.run(app.config['LISTEN_HOST'], app.config['LISTEN_PORT'])

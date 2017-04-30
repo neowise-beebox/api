@@ -17,8 +17,7 @@ def newBee(beedata):
         }
     }
 
-def save(beedata):
-    beejson = json.loads( beedata )
+def save(beejson):
     connection.post( "/bees", newBee(beejson) )
 
 def createBeeListForMap():
