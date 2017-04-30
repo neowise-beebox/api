@@ -1,0 +1,6 @@
+Flask==0.12.1
+gunicorn==19.7.1
+python-firebase==1.2
+requests==2.13.0
+six==1.10.0
+virtualenv==15.1.0
