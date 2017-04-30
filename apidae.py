@@ -8,12 +8,12 @@ from database.dao import beedao
 app = Flask( __name__ )
 
 # Welcome to BeeBox
-@app.route("/", methods=["GET"])
+@app.route("/test", methods=["GET"])
 def welcome():
     return "Welcome to BeeBox!"
 
 # Creates new bee occurrence
-@app.route("/savebee", methods=["POST"])
+@app.route("/", methods=["POST"])
 def savebee():
     beedao.save(request.form["beedata"])
     return jsonify( "ok" )
