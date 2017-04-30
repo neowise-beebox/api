@@ -54,4 +54,7 @@ def listBeeOccurrences():
     return bee_list
 
 def listRelativesByOccurrenceId(id):
-    return connection.get("relatives", id)
+    results = connection.get("relatives", id)
+    for result in results:
+        index = result
+    return results.pop(index)
