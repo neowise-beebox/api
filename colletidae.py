@@ -4,7 +4,7 @@ import requests
 apidae_api_key = "0079f159f4ced7bbe0694468132deee8"
 
 def main():
-    getCitiesInfo(0)
+    getCitiesInfo(320)
 
 def getCitiesInfo(index):
     cities = open("new_list.txt").read().split(',')
@@ -19,15 +19,15 @@ def getCitiesInfo(index):
 def getCityInfoById(city_id):
     weather_api_url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_id, apidae_api_key)
     city_content = json.loads( requests.get(weather_api_url).content )
-    print city_content["id"]
+    print city_content["id"] if city_content.has_key("id") else "anony" 
     return mountIndividualCityDict( city_content )
 
 def mountIndividualCityDict(city_full_content):
     city_dict = {
-        "name": city_full_content["name"],
+        "name": city_full_content["name"] if city_full_content.has_key("name") else "",
         "coord": {
-            "lat": city_full_content["coord"]["lat"],
-            "lon": city_full_content["coord"]["lon"],
+            "lat": city_full_content["coord"]["lat"] if city_full_content["coord"].has_key("lat") else "",
+            "lon": city_full_content["coord"]["lon"] if city_full_content["coord"].has_key("lon") else "",
         },
         "main": {
             "temp": city_full_content["main"]["temp"] if city_full_content["main"].has_key("temp") else "",
