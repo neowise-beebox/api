@@ -1,1 +1,1 @@
-web: gunicorn apidae.py --log-file -
+worker: python apidae.py
