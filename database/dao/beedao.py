@@ -2,13 +2,15 @@
 #-*- coding: utf-8 -*-
 
 import json
+from weatherhelper import weatherhelper
 from database import megachilidaeconnection
 
 connection = megachilidaeconnection.getConnection()
 
 ## Implementar o id e o device_id
 def newBee(beedata):
-    return {
+    # print weatherhelper.getWeatherUsingCoord(beedata["latitude"], beedata["longitude"])
+    data = {
         "description": beedata["description"],
         "image_path": beedata["picture"],
         "species": beedata["species"],
@@ -17,11 +19,11 @@ def newBee(beedata):
             "lng": beedata["longitude"]
         }
     }
+    data.update(weatherhelper.getWeatherUsingCoord(beedata["latitude"], beedata["longitude"]))
+    return data
 
 def save(beejson):
-    print "sended data ==> {}".format( beejson )
-    print "sended data type ==> {}".format(type( beejson ))
-    connection.post( "/bees", newBee( json.loads(beejson) ) )
+    connection.post("/bees", newBee( json.loads(beejson) ) )
 
 def listBeeOccurrences():
     bee_list = []
