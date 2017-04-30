@@ -10,10 +10,11 @@ connection = megachilidaeconnection.getConnection()
 def newBee(beedata):
     return {
         "description": beedata["description"],
-        "image_path": beedata["image"],
+        "image_path": beedata["picture"],
+        "species": beedata["species"],
         "coord": {
-            "lat": beedata["lat"],
-            "lng": beedata["lng"]
+            "lat": beedata["latitude"],
+            "lng": beedata["longitude"]
         }
     }
 
