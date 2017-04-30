@@ -15,6 +15,7 @@ def welcome():
 # Creates new bee occurrence
 @app.route("/savebee", methods=["POST"])
 def savebee():
+    print request.form["beedata"]
     beedao.save(request.form["beedata"])
     return jsonify( {"status": 200, "text": "bee saved"} )
 
