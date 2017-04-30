@@ -23,30 +23,9 @@ def save(beejson):
     print "sended data type ==> {}".format(type( beejson ))
     connection.post( "/bees", newBee( json.loads(beejson) ) )
 
-def createBeeListForMap():
-    beesdict = []
-    occurrences = connection.get( "bees", None )
-    for occurrence_index in occurrences:
-        occurrence = occurrences[occurrence_index]
-        beedict = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": {
-                    occurrence["coord"]["lat"],
-                    occurrence["coord"]["lng"]
-                }                
-            },
-            "properties": {
-                "description": occurrence[occurrence]["description"]   
-            }
-        }
-        print beedict
-        # beesdict.append(beedict)
-
 def listBeeOccurrences():
-    beesdict = {
-        "type": "FeatureCollection",
-        "features": []
-    }
-    createBeeListForMap()
+    bee_list = []
+    results = connection.get( "/bees", None)
+    for bee_key in results:
+        bee_list.append( results[bee_key] )
+    return bee_list
